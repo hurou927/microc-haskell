@@ -1,7 +1,6 @@
 # MICROC compiler
 
-input : stdin
-output : stdout
+input : stdin / output : stdout
 
 `./exe < count.c > count.asm`
 
