@@ -3,7 +3,7 @@
 input : stdin
 output : stdout
 
-``` :count.c
+``` c:count.c
 n=in;
 L1:
     out(n);
@@ -19,7 +19,7 @@ L2:
 `./exe < count.c > count.asm`
 
 
-``` :count.asm
+``` assembly:count.asm
         IN
         POP n
 L1:
