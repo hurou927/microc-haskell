@@ -10,7 +10,7 @@ inputLoop::IO()
 inputLoop = do
     s <- getLine
     eof  <- isEOF
-    putStrLn $ init $ run s
+    when (s /= "") $ putStrLn $ init $ run s
     unless eof inputLoop
 
 runParse :: IO ()

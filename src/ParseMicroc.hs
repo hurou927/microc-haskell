@@ -241,8 +241,14 @@ lABLE = do
         return $ startStrLabel++s ++":"++endStr -- OUTPUT
         <?> "lABEL"
 
+spacesOnly::Parser String
+spacesOnly = do
+                many1 space 
+                return " "
+        <?> "spaceOnly"
+
 statement::Parser String
-statement = try lABLE <|> try intdef <|> try goto <|> try iF <|> try uNLESS <|> try halt <|> try out <|> try assign <?> "statement"
+statement = try lABLE <|> try intdef <|> try goto <|> try iF <|> try uNLESS <|> try halt <|> try out <|> try assign <|> spacesOnly <?> "statement"
 
 input::Parser String
 input =  do 
