@@ -29,7 +29,7 @@ L1:
         PUSH n
         OUT
         PUSH n
-JZ L2
+        JZ L2
         PUSH n
         PUSHI 1
         SUB
