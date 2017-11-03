@@ -183,7 +183,7 @@ uNLESS = do
         spaces
         char ';'
         spaces
-        return $ startStrExcludeLabel++s++"JZ "++n++endStr -- OUTPUT
+        return $ s++startStrExcludeLabel++"JZ "++n++endStr -- OUTPUT
         <?> "uNLESS"
         
 iNTEGER::Parser String

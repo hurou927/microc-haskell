@@ -28,7 +28,7 @@ count.asm
 L1:
         PUSH n
         OUT
-                PUSH n
+        PUSH n
 JZ L2
         PUSH n
         PUSHI 1
