@@ -75,7 +75,7 @@ expr = buildExpressionParser table factor
       <?> "expression"
 
 table = [
-        [unary "neg" "NEG",unary "!" "NOT",unary "~" "BNOT"]
+        [unary "-" "NEG",unary "!" "NOT",unary "~" "BNOT"]
         ,[biop "*" "MUL" AssocLeft]
         ,[biop "+" "ADD" AssocLeft, biop "-" "SUB" AssocLeft]
         ,[biop "<<" "SHL" AssocLeft, biop ">>" "SHR" AssocLeft]
