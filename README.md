@@ -17,9 +17,7 @@ L2:
     int n;
 ```
 
-↓
-↓
-↓
+↓↓↓
 
 count.asm
 ``` assembly:count.asm

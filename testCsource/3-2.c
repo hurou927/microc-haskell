@@ -1,6 +1,6 @@
 L1: if(c==4) goto L2;
         unless(c==0) goto else1;
-        DivA=in0;
+        DivA=in;
         DivB=1000*10;
         goto fi;
 else1:  unless(c==1) goto else2;

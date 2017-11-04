@@ -29,6 +29,24 @@ lexer = P.makeTokenParser haskellDef --(emptyDef { reservedOpNames = ["&","&&"] 
 reservedOp  = P.reservedOp lexer
 integer     = P.integer lexer
 
+
+
+-- input: statement | input statement
+-- statement: label | intdef | goto | if | unless | halt | out | assign 
+-- label: NAME ':'
+-- intdef: INT intlist ';'
+-- intlist: integer | intlist ',' integer
+-- integer: NAME| NAME '=' NUMBER| NAME '=' '-' NUMBER
+-- goto: GOTO NAME ';'
+-- if: IF '(' expr ')' GOTO NAME ';'
+-- unless: UNLESS '(' expr ')' GOTO NAME ';'
+-- halt: HALT ';'
+-- out: OUT '(' expr ')' ';'
+-- assign: NAME '=' expr ';'
+-- expr: factor '+' factor | factor '-' factor | ...
+-- factor : NAME|NUMBER|expr|(expr)
+
+
 number :: Parser Integer
 number = integer <?> "integer"
 
