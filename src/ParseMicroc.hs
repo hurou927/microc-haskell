@@ -75,7 +75,7 @@ expr = buildExpressionParser table factor
       <?> "expression"
 
 table = [
-        [unary "-" "NEG",unary "!" "NOT",unary "~" "BNOT"]
+        [unary "neg" "NEG",unary "!" "NOT",unary "~" "BNOT"]
         ,[biop "*" "MUL" AssocLeft]
         ,[biop "+" "ADD" AssocLeft, biop "-" "SUB" AssocLeft]
         ,[biop "<<" "SHL" AssocLeft, biop ">>" "SHR" AssocLeft]
@@ -95,7 +95,7 @@ table = [
         biop' c f assoc = Infix ( try (  do{ char c; notFollowedBy (char c) ; return $ fbiop' f } ) ) assoc
         fbiop' f a b = a++b++startStrExcludeLabel++f++endStr
 
-        unary s f = Prefix (do{string s ; return $funop f})
+        unary s f = Prefix (try (do{string s ; return $funop f}) )
         funop f b = b++startStrExcludeLabel++f++endStr
 assign::Parser String
 assign = do
