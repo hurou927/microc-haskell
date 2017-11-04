@@ -89,13 +89,13 @@ table = [
         ,[biop "||" "OR" AssocLeft]
         ]
       where
-        biop s f assoc = Infix ( try ( do{ string s;return $ fbiop f }) ) assoc
+        biop s f assoc = Infix ( try ( do{ spaces;  string s; spaces; return $ fbiop f }) ) assoc
         fbiop f a b = a++b++startStrExcludeLabel++f++endStr
         
-        biop' c f assoc = Infix ( try (  do{ char c; notFollowedBy (char c) ; return $ fbiop' f } ) ) assoc
+        biop' c f assoc = Infix ( try (  do{ spaces;  char c;  spaces; notFollowedBy (char c) ; return $ fbiop' f } ) ) assoc
         fbiop' f a b = a++b++startStrExcludeLabel++f++endStr
 
-        unary s f = Prefix (try (do{string s ; return $funop f}) )
+        unary s f = Prefix (try (do{ spaces; string s ; spaces; return $funop f}) )
         funop f b = b++startStrExcludeLabel++f++endStr
 assign::Parser String
 assign = do
