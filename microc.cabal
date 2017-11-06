@@ -1,5 +1,5 @@
 name:                microc
-version:             1.0.0.0
+version:             1.0.0.1
 synopsis:            microc compiler
 description:         convert microc code to asm code
 homepage:            https://github.com/hurou927/microc-haskell#readme

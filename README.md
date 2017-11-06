@@ -1,5 +1,7 @@
 # MICROC compiler
 
+#
+
 `microcCompilerLine :: String -> String`
 
 Convert a line of microc code to asm
@@ -12,6 +14,7 @@ Convert microc code to asm
 
 Input:Stdin / Output:Stdout
 
+## Example
 
 ```haskell:microc
 main::IO()
