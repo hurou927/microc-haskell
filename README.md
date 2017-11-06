@@ -1,8 +1,24 @@
 # MICROC compiler
 
-input : stdin / output : stdout
+`microcCompilerLine :: String -> String`
 
-`./exe < count.c > count.asm`
+Convert a line of microc code to asm
+
+`microcCompilerStr :: String -> String`
+
+Convert microc code to asm
+
+`microcCompiler::IO()`
+
+Input:Stdin / Output:Stdout
+
+
+```haskell:microc
+main::IO()
+main = microcCompiler
+```
+
+`./microc < count.c > count.asm`
 
 count.c
 ``` c : count.c
@@ -38,3 +54,6 @@ L2:
 n: 0
 ```
 
+Hiroshima Univ. / Embedded Software
+
+https://momiji.hiroshima-u.ac.jp/syllabusHtml/2017_58_U4090201.html

@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import ParseMicroc
 
 main :: IO ()
-main = runParse
+main = microcCompiler

@@ -1,6 +1,8 @@
 
 module ParseMicroc
-    ( run
+    ( microcCompilerLine
+    , microcCompilerStr
+    , microcCompiler
     ) where
 
 
@@ -10,6 +12,20 @@ import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Expr
 import Text.ParserCombinators.Parsec.Language
 import qualified Text.ParserCombinators.Parsec.Token as P
+
+microcCompilerLine :: String -> String
+microcCompilerLine ""  = ""
+microcCompilerLine str = either show id $ parse input "microc(c->asm)" str
+
+microcCompilerStr :: String -> String
+microcCompilerStr str = unlines $ map microcCompilerLine $ lines str
+
+microcCompiler::IO()
+microcCompiler = do
+    s <- getLine
+    eof  <- isEOF
+    putStr  $ microcCompilerLine s
+    unless eof microcCompiler
 
 
 endStr = "\n"
@@ -21,8 +37,6 @@ concatenate :: [String] -> String
 concatenate ls = foldr (++) "" ls
 
 
-run :: String -> String
-run str = either show id $ parse input "microc(c->asm)" str
 
 lexer :: P.TokenParser ()
 lexer = P.makeTokenParser haskellDef --(emptyDef { reservedOpNames = ["&","&&"] })
