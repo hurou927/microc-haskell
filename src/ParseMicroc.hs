@@ -3,6 +3,10 @@ module ParseMicroc
     ( microcCompilerLine
     , microcCompilerStr
     , microcCompiler
+    , microcCompilerFromFile
+    -- , microcCompilerLineWithError
+    -- , microcCompilerStrWithError
+    -- , microcCompilerWithError
     ) where
 
 
@@ -11,31 +15,43 @@ import Control.Monad
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Expr
 import Text.ParserCombinators.Parsec.Language
+import Text.ParserCombinators.Parsec.Error
 import qualified Text.ParserCombinators.Parsec.Token as P
 
 microcCompilerLine :: String -> String
 microcCompilerLine ""  = ""
-microcCompilerLine str = either show id $ parse input "microc(c->asm)" str
+microcCompilerLine str =  either show id $ parse inputAll "microc(c->asm)" str
 
 microcCompilerStr :: String -> String
-microcCompilerStr str = unlines $ map microcCompilerLine $ lines str
+-- microcCompilerStr str = unlines $ map microcCompilerLine $ lines str
+microcCompilerStr str = either show id $ parse inputAll "microc(c->asm)" str
+
+-- microcCompiler::IO()
+-- microcCompiler = do
+--     s <- getLine
+--     eof  <- isEOF
+--     putStr  $ microcCompilerLine s
+--     unless eof microcCompiler
 
 microcCompiler::IO()
 microcCompiler = do
     s <- getLine
     eof  <- isEOF
-    putStr  $ microcCompilerLine s
+    putStr  $ microcCompilerStr s
     unless eof microcCompiler
 
+microcCompilerFromFile:: String -> IO()
+microcCompilerFromFile fileName = do
+    fileContents <- readFile fileName
+    putStrLn  $ microcCompilerStr fileContents
+
+
+
+    
 
 endStr = "\n"
 startStrExcludeLabel = "\t"
 startStrLabel = ""
-
-
-concatenate :: [String] -> String
-concatenate ls = foldr (++) "" ls
-
 
 
 lexer :: P.TokenParser ()
@@ -248,7 +264,7 @@ intlist = do
             spaces
             return y 
             )
-        return $ concatenate $ x:xs
+        return $ concat $ x:xs
         <?> "intlist"
 
 intdef::Parser String
@@ -276,15 +292,32 @@ lABLE = do
 spacesOnly::Parser String
 spacesOnly = do
                 many1 space 
-                return " "
+                return ""
         <?> "spaceOnly"
 
 statement::Parser String
 statement = try lABLE <|> try intdef <|> try goto <|> try iF <|> try uNLESS <|> try halt <|> try out <|> try assign <|> spacesOnly <?> "statement"
 
-input::Parser String
-input =  do 
-        xs <- many1 statement 
-        return $ concatenate xs
-        <?> "input"
+-- input::Parser String
+-- input =  do 
+--         xs <- many1 statement 
+--         spaces
+--         eof
+--         return $ concat xs
+--         <?> "input"
 
+
+eol = string "\n" <|> string "\n\r"
+
+inputAll::Parser String
+inputAll = do 
+        xs <- many1 ( do
+                x <- statement 
+                spaces
+                many eol
+                return x
+                )
+        spaces
+        eof
+        return $ concat xs
+        <?> "inputAll"

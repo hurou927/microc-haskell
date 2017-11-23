@@ -14,9 +14,17 @@ Convert microc code to asm
 
 Input:Stdin / Output:Stdout
 
-## Example
+`microcCompilerFromFile:: String -> IO()`
+
+Input:Filename / Output:Stdout
+
+## Example1
 
 ```haskell:microc
+module Main where
+
+import ParseMicroc
+
 main::IO()
 main = microcCompiler
 ```
@@ -56,6 +64,56 @@ L2:
         HALT
 n: 0
 ```
+
+## Example2
+
+```haskell:microc
+module Main where
+
+import ParseMicroc
+
+main::IO()
+main = do
+    args <- getArgs
+    microcCompilerFromFile $ head args
+```
+
+`./microc  count.c > count.asm`
+
+count.c
+``` c : count.c
+n=in;
+L1:
+    out(n);
+    unless(n) goto L2;
+    n=n-1;
+    goto L1;
+L2:
+    halt;
+    int n;
+```
+
+↓↓↓
+
+count.asm
+``` assembly:count.asm
+        IN
+        POP n
+L1:
+        PUSH n
+        OUT
+        PUSH n
+        JZ L2
+        PUSH n
+        PUSHI 1
+        SUB
+        POP n
+        JMP L1
+L2:
+        HALT
+n: 0
+```
+
 
 Hiroshima Univ. / Embedded Software
 
